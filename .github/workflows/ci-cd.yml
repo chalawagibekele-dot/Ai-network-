@@ -38,22 +38,23 @@ jobs:
         pip install -r requirements.txt
         echo "✅ Dependencies installed successfully"
     
-    - name: List directory structure
+    - name: Verify project structure
       run: |
         echo "📁 Project structure:"
         ls -la
         echo ""
-        echo "📦 Python path check:"
-        python -c "import sys; print('\n'.join(sys.path))"
+        echo "📦 Checking sys.path and PYTHONPATH:"
+        python -c "import sys, os; print('PYTHONPATH:', os.environ.get('PYTHONPATH', 'Not set')); print('sys.path:', '\n  '.join(sys.path))"
         echo ""
-        echo "🔍 Checking src module:"
-        python -c "import src; print(f'✅ src module found at: {src.__file__}')"
+        echo "🔍 Verifying src module can be imported:"
+        cd ${{ github.workspace }}
+        python -c "import sys; sys.path.insert(0, '.'); from src.main import WAGIAICore; print('✅ src.main.WAGIAICore imported successfully')"
     
-    - name: Run tests
+    - name: Run tests with pytest
       run: |
         cd ${{ github.workspace }}
         echo "🧪 Running tests..."
-        python -m pytest tests/test_wagi_ai.py -v -s --tb=short
+        python -m pytest tests/test_wagi_ai.py -v -s --tb=short --import-mode=importlib
       env:
         PYTHONPATH: ${{ github.workspace }}
     
