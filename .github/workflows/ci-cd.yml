@@ -41,10 +41,13 @@ jobs:
     - name: List directory structure
       run: |
         echo "📁 Project structure:"
-        find . -type f -name '*.py' | head -20
+        ls -la
         echo ""
         echo "📦 Python path check:"
         python -c "import sys; print('\n'.join(sys.path))"
+        echo ""
+        echo "🔍 Checking src module:"
+        python -c "import src; print(f'✅ src module found at: {src.__file__}')"
     
     - name: Run tests
       run: |
