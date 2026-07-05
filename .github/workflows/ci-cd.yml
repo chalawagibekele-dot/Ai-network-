@@ -33,18 +33,16 @@ jobs:
     
     - name: Run tests
       run: |
-        pytest tests/ -v --tb=short
+        python -m pytest tests/ -v --tb=short
       continue-on-error: false
     
     - name: Lint with flake8
       run: |
-        flake8 src/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics
-      continue-on-error: true
+        flake8 src/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics || true
     
     - name: Format check with black
       run: |
-        black --check src/ tests/
-      continue-on-error: true
+        black --check src/ tests/ || true
 
   deploy:
     needs: test

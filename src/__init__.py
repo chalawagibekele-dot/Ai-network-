@@ -1,0 +1,1 @@
+# WAGI AI - Package initialization
