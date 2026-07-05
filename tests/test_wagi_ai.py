@@ -7,14 +7,14 @@ import sys
 import os
 from pathlib import Path
 
-# Add the project root to the Python path
+# Add the project root to the Python path BEFORE importing pytest
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
+
+# Change to project root directory
 os.chdir(project_root)
 
 import pytest
-
-# Import after path is set
 from src.main import WAGIAICore
 
 
@@ -33,7 +33,7 @@ class TestWAGIAICore:
         assert self.ai.status == "initialized"
         print("✅ Initialization test passed")
     
-    def test_initialize_method(self, capsys):
+    def test_initialize_method(self):
         """Test initialize method"""
         print("\n🧠 Testing initialize method...")
         self.ai.initialize()
